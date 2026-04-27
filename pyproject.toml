@@ -1,0 +1,34 @@
+[project]
+name = "tradecli"
+version = "0.1.0"
+description = "Transforms raw price data into actionable trading signals using a composable set of operations: moving averages, rate of change, cross-above detection, and portfolio simulation."
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click (>=8.3.3,<9.0.0)",
+]
+
+[tool.poetry.dependencies]
+CMDI = { path = "./interfaces/CMDI", develop = true }
+
+#we are saying here that interfaces is a viable subdirectory
+[tool.pyre]
+source_directories = [
+    "interfaces",
+    "CMDI"
+]
+
+[tool.poetry]
+packages = [{include = "interfaces/CMDI"}] 
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+tradecli = "interfaces.CMDI.tradecli:cli" #writing tradecli in terminal will run the cli function in interfaces/CMDI/tradecli.py
+
