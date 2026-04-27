@@ -9,4 +9,7 @@ def view(id, variables):
     this will send the request to the engine to get 
     the corresponding price entry and exit for the given ID and print the result
     """
-    engine.view_trade_record(id, variables)
+    (record_variables, variables_set) =engine.view_trade_record(id, variables)
+    for variable_name, series in record_variables.items():
+        if variable_name in variables_set:
+            click.echo(f"{variable_name}: {series}")
