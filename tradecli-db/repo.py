@@ -4,6 +4,7 @@ import os
 from uuid import UUID
 from models import TradeRecord
 
+#here no need for the .env since this is the cache DB that saves prior results of prior executions
 DB_PATH = os.path.join(os.path.dirname(__file__), "mock-db", "tradecli.db")
 
 def get_element_by_id(id: UUID) -> TradeRecord:
