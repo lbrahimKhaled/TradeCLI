@@ -15,6 +15,25 @@ if the shell command is not installed by default use the following:
 poetry self add poetry-plugin-shell
 ```
 
+## Rest API
+=> the choice of the framework will be FastAPI
+=> to test if the rest api is working fine:
+
+### run the server side first :
+
+```bash
+uvicorn interfaces.API.server:app --host 0.0.0.0 --port 8000
+```
+
+### view command:
+then go to postman and put the following next to the get command: 
+
+http://0.0.0.0:8000/view/479f8db9-1b68-4a9f-bd5c-a5c7fef194d9?items=btc&items=eth
+
+or alternatively run the following in terminal:
+```bash
+curl "http://0.0.0.0:8000/view/479f8db9-1b68-4a9f-bd5c-a5c7fef194d9?items=btc&items=eth"
+```
 
 ## DB:
 => sqlite was chosen as the db for the saved requests since it is easily maintainable on the user's end 
