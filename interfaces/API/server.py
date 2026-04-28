@@ -9,8 +9,8 @@ class ExecuteRequest():
 
 @app.post("/execute")
 def execute(request: ExecuteRequest):
-    context = engine.execute_script(request.script)
-    return {"variables": list(context.keys()), "result": context}
+    id = engine.execute_script(request.script)
+    return {"message": "Script successfully executed", "result": str(id)}
 
 @app.get("/view/{id}")
 def view(id: UUID, items: List[str] | None = Query(None)): # meaning items can accept no arguments at all and will accept arguments if passed

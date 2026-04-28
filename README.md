@@ -22,8 +22,10 @@ poetry self add poetry-plugin-shell
 ### run the server side first :
 
 ```bash
-uvicorn interfaces.API.server:app --host 0.0.0.0 --port 8000
+uvicorn interfaces.API.server:app --host 127.0.0.1 --port 8000
 ```
+=> this will receive both commands the one going to the 0.0.0.0 (since this is broadcast address)
+
 
 ### view command:
 then go to postman and put the following next to the get command: 
@@ -33,6 +35,38 @@ http://0.0.0.0:8000/view/479f8db9-1b68-4a9f-bd5c-a5c7fef194d9?items=btc&items=et
 or alternatively run the following in terminal:
 ```bash
 curl "http://0.0.0.0:8000/view/479f8db9-1b68-4a9f-bd5c-a5c7fef194d9?items=btc&items=eth"
+```
+
+### execute command:
+run the following to send a post request to the engine
+```bash
+curl -X ’POST’ \
+’http://127.0.0.1:8000/execute’ \
+-H ’accept: application/json’ \
+-H ’Content-Type: application/json’ \
+-d ’{
+"script": "btc = Fetch{OneMinuteBitcoinPrices}{}\neth = Fetch{OneMinuteEthereum}{}"
+}’
+```
+
+
+## CLI
+
+### execute command:
+```bash
+tradecli execute
+```
+then type your script line by line and press `Ctrl+D` when done:
+```
+price = Fetch{OneMinuteGoldPrices}{}
+fast = ExponentialMovingAverage{0.3}{price}
+^D
+Script successfully executed: <uuid>
+```
+
+### view command:
+```bash
+tradecli view --id <uuid> price fast
 ```
 
 ## DB:
