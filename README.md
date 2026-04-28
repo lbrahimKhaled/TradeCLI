@@ -37,6 +37,7 @@ curl "http://0.0.0.0:8000/view/479f8db9-1b68-4a9f-bd5c-a5c7fef194d9?items=btc&it
 
 ## DB:
 => sqlite was chosen as the db for the saved requests since it is easily maintainable on the user's end 
+=> if there is problem with saving to the db make sure that the sq viewer is closed since it will lock the db
 
 ### to visualize the db do the following:
 for mac:
