@@ -4,8 +4,9 @@ this file will be responsible for responsible for calling relevant transfomation
 
 from uuid import UUID
 
-from tradecli_db.repo import get_element_by_id, save_trade_record
+from tradecli_db.repo import get_element_by_id, save_trade_record, get_datasource_by_name
 from tradecli_db.models import TradeRecord
+
 def view_trade_record(id: UUID, variables: tuple[str, ...] = ()) ->  tuple[dict[str, list[float]], set[str]]: # defualting variables to ()
     """
     this will be responsible for calling the repo function 
@@ -16,4 +17,10 @@ def view_trade_record(id: UUID, variables: tuple[str, ...] = ()) ->  tuple[dict[
     variables_set = set(variables)
     return (record.variables, variables_set) if variables else (record.variables, set(record.variables.keys())) # if variables is empty we will return all the variables in the record
 
-
+def fetch_record(datasource: str) -> list[float] :
+    """
+    responsible for calling the repo for 
+    """
+    data = get_datasource_by_name(datasource)
+    return data
+    
