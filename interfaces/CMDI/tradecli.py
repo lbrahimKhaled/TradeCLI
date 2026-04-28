@@ -1,5 +1,5 @@
 import click
-from . import view
+from . import view, execute
 
 @click.group(invoke_without_command = True)
 @click.pass_context
@@ -9,3 +9,4 @@ def cli(ctx) -> None:
         click.echo("usage: cli.py [-h] {execute,view} ... \n\n CLI tool \n\n positional arguments: \n {execute,view} \n execute Read entire stdin as input script \n view View items by ID \n\n options:\n-h, --help show this help message and exit")
 
 cli.add_command(view.view)
+cli.add_command(execute.execute)
