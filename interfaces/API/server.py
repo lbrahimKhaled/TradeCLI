@@ -4,6 +4,14 @@ from typing import List
 from application import engine
 app = FastAPI()
 
+class ExecuteRequest():
+    script: str
+
+@app.post("/execute")
+def execute(request: ExecuteRequest):
+    id = engine.execute_script(request.script)
+    return {"message": "Script successfully executed", "result": str(id)}
+
 @app.get("/view/{id}")
 def view(id: UUID, items: List[str] | None = Query(None)): # meaning items can accept no arguments at all and will accept arguments if passed
     (record_variables, variables_set) = engine.view_trade_record(id) # means get everything from the DB all arguments and we will filter them here

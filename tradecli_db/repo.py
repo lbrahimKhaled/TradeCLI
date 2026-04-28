@@ -2,7 +2,7 @@ import sqlite3
 import json
 import os
 import csv
-from uuid import UUID
+from uuid import UUID, uuid4
 from .models import TradeRecord
 
 #here no need for the .env since this is the cache DB that saves prior results of prior executions
@@ -22,12 +22,23 @@ def get_element_by_id(id: UUID) -> TradeRecord:
     variables = {name: json.loads(series) for name, series in rows}
     return TradeRecord(id=id, variables=variables)
 
-def save_trade_record(record: TradeRecord) -> None:
+def save_trade_record(variables: dict[str, list[float]]) -> UUID:
     """
-    this will save the given trade record to the database
+    given the variable names and the corresponding series
+    we will save them to the db and generate a unique ID for the whole variables to group them
+    return : the unique ID previously generated
     """
-    # NB: there should be 2 savings the local save and the remote save to the company's DB
-    pass
+    id = uuid4()
+    record = TradeRecord(id=id, variables=variables)
+    con = sqlite3.connect(DB_PATH)
+    cur = con.cursor()
+    cur.executemany(
+        "INSERT INTO results (script_id, variable_name, series) VALUES (?, ?, ?)",
+        [(str(record.id), name, json.dumps(series)) for name, series in record.variables.items()]
+    )
+    con.commit()
+    con.close()
+    return id
 
 
 
