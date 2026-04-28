@@ -32,7 +32,7 @@ def view_trade_record(id: UUID, variables: tuple[str, ...] = ()) ->  tuple[dict[
     variables_set = set(variables)
     return (record.variables, variables_set) if variables else (record.variables, set(record.variables.keys())) # if variables is empty we will return all the variables in the record
 
-def execute_script(script: str) -> dict[str, list[float]]:
+def execute_script(script: str) -> UUID:
     statements = parse_script(script)
     context: dict[str, list[float]] = {}
 
@@ -54,6 +54,6 @@ def execute_script(script: str) -> dict[str, list[float]]:
                 context[variable] = constant_series(float(config[0]), series_inputs[0])
             case "PortfolioSimulation":
                 context[variable] = portfolio_simulation(float(config[0]), series_inputs[0], series_inputs[1], series_inputs[2])
-            # here later might go some error handling
-    return context
+
+    return save_trade_record(context)
     
